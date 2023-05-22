@@ -13,6 +13,14 @@ const DisplayInfo = ({ text, count }) => (
 const Heading = ({ heading }) => <h1>{heading}</h1>;
 
 const Statistics = ({ good, neutral, bad, average, getAll }) => {
+  if (!good && !neutral && !bad) {
+    return (
+      <div>
+        <Heading heading="statistics" />
+        <p>No feedback given</p>
+      </div>
+    );
+  }
   return (
     <div>
       <Heading heading="statistics" />
