@@ -4,10 +4,14 @@ const Button = ({ setOnClick, text }) => (
   <button onClick={setOnClick}>{text}</button>
 );
 
-const DisplayInfo = ({ text, value }) => (
-  <p>
-    {text} {value}
-  </p>
+const StatisticsLine = ({ text, value, percentSign }) => (
+  <tr>
+    <td>{text}</td>
+    <td>
+      {value}
+      {percentSign ? "%" : ""}
+    </td>
+  </tr>
 );
 
 const Heading = ({ heading }) => <h1>{heading}</h1>;
@@ -22,15 +26,30 @@ const Statistics = ({ good, neutral, bad, average, getAll }) => {
     );
   }
   return (
-    <div>
-      <Heading heading="statistics" />
-      <DisplayInfo text="good" value={good} />
-      <DisplayInfo text="neutral" value={neutral} />
-      <DisplayInfo text="bad" value={bad} />
-      <DisplayInfo text="all" value={getAll()} />
-      <DisplayInfo text="average" value={average / getAll() || 0} />
-      <DisplayInfo text="positive" value={(good / getAll()) * 100 || 0} />
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th colSpan="2">
+            <Heading heading="statistics" />
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <StatisticsLine text="good" value={good} />
+        <StatisticsLine text="neutral" value={neutral} />
+        <StatisticsLine text="bad" value={bad} />
+        <StatisticsLine text="all" value={getAll()} />
+        <StatisticsLine
+          text="average"
+          value={(average / getAll()).toFixed(1) || 0}
+        />
+        <StatisticsLine
+          text="positive"
+          value={((good / getAll()) * 100).toFixed(1) || 0}
+          percentSign={true}
+        />
+      </tbody>
+    </table>
   );
 };
 
