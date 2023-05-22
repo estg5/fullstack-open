@@ -12,6 +12,20 @@ const DisplayInfo = ({ text, count }) => (
 
 const Heading = ({ heading }) => <h1>{heading}</h1>;
 
+const Statistics = ({ good, neutral, bad, average, getAll }) => {
+  return (
+    <div>
+      <Heading heading="statistics" />
+      <DisplayInfo text="good" count={good} />
+      <DisplayInfo text="neutral" count={neutral} />
+      <DisplayInfo text="bad" count={bad} />
+      <DisplayInfo text="all" count={getAll()} />
+      <DisplayInfo text="average" count={average / getAll() || 0} />
+      <DisplayInfo text="positive" count={(good / getAll()) * 100 || 0} />
+    </div>
+  );
+};
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
@@ -44,13 +58,13 @@ const App = () => {
       <Button setOnClick={handleGoodOnClick} text="good" />
       <Button setOnClick={handleNeutralOnClick} text="neutral" />
       <Button setOnClick={handleBadOnClick} text="bad" />
-      <Heading heading="statistics" />
-      <DisplayInfo text="good" count={good} />
-      <DisplayInfo text="neutral" count={neutral} />
-      <DisplayInfo text="bad" count={bad} />
-      <DisplayInfo text="all" count={getAll()} />
-      <DisplayInfo text="average" count={average / getAll() || 0} />
-      <DisplayInfo text="positive" count={(good / getAll()) * 100 || 0} />
+      <Statistics
+        average={average}
+        bad={bad}
+        getAll={getAll}
+        good={good}
+        neutral={neutral}
+      />
     </div>
   );
 };
