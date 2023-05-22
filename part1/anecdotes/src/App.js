@@ -4,6 +4,8 @@ const Button = ({ text, onClickHandler = undefined }) => (
   <button onClick={onClickHandler}>{text}</button>
 );
 
+const DisplayText = ({ text }) => <p>{text}</p>;
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -19,16 +21,27 @@ const App = () => {
     "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.",
     "The only way to go fast, is to go well.",
   ];
-
   const [selected, setSelected] = useState(0);
+  const [anecdoteVotes, setAnecdoteVotes] = useState(
+    new Array(anecdotes.length).fill(0)
+  );
+
   const selectAnecdoteOnClick = () => {
     const randomN = getRandomInt(anecdotes.length);
     setSelected(randomN);
   };
+  const voteForAnecdoteOnClick = () => {
+    const newAnecdoteVotes = anecdoteVotes.map((e, i) =>
+      i === selected ? e + 1 : e
+    );
+    setAnecdoteVotes(newAnecdoteVotes);
+  };
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
+      <DisplayText text={anecdotes[selected]} />
+      <DisplayText text={`has ${anecdoteVotes[selected]} votes`} />
+      <Button text="vote" onClickHandler={voteForAnecdoteOnClick} />
       <Button text="next anecdote" onClickHandler={selectAnecdoteOnClick} />
     </div>
   );
