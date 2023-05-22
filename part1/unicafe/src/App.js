@@ -4,9 +4,9 @@ const Button = ({ setOnClick, text }) => (
   <button onClick={setOnClick}>{text}</button>
 );
 
-const DisplayInfo = ({ text, count }) => (
+const DisplayInfo = ({ text, value }) => (
   <p>
-    {text} {count}
+    {text} {value}
   </p>
 );
 
@@ -24,12 +24,12 @@ const Statistics = ({ good, neutral, bad, average, getAll }) => {
   return (
     <div>
       <Heading heading="statistics" />
-      <DisplayInfo text="good" count={good} />
-      <DisplayInfo text="neutral" count={neutral} />
-      <DisplayInfo text="bad" count={bad} />
-      <DisplayInfo text="all" count={getAll()} />
-      <DisplayInfo text="average" count={average / getAll() || 0} />
-      <DisplayInfo text="positive" count={(good / getAll()) * 100 || 0} />
+      <DisplayInfo text="good" value={good} />
+      <DisplayInfo text="neutral" value={neutral} />
+      <DisplayInfo text="bad" value={bad} />
+      <DisplayInfo text="all" value={getAll()} />
+      <DisplayInfo text="average" value={average / getAll() || 0} />
+      <DisplayInfo text="positive" value={(good / getAll()) * 100 || 0} />
     </div>
   );
 };
