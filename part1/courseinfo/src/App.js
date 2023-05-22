@@ -1,13 +1,26 @@
 const Header = ({ name }) => <h1>{name}</h1>;
 
-const Content = ({ part, n }) => (
+const Content = (props) => {
+  const parts = [];
+  for (let index = 0; index < props.content.length; index++) {
+    parts.push(
+      <Part
+        part={props.content[index].part}
+        n={props.content[index].n}
+        key={index}
+      />
+    );
+  }
+  return <>{parts}</>;
+};
+
+const Total = ({ total }) => <p>Number of exercises {total}</p>;
+
+const Part = ({ part, n }) => (
   <p>
     {part} {n}
   </p>
 );
-
-const Total = ({ total }) => <p>Number of exercises {total}</p>;
-
 const App = () => {
   const course = "Half Stack application development";
   const part1 = "Fundamentals of React";
@@ -20,9 +33,13 @@ const App = () => {
   return (
     <div>
       <Header name={course} />
-      <Content n={exercises1} part={part1} />
-      <Content n={exercises2} part={part2} />
-      <Content n={exercises3} part={part3} />
+      <Content
+        content={[
+          { part: part1, n: exercises1 },
+          { part: part2, n: exercises2 },
+          { part: part3, n: exercises3 },
+        ]}
+      />
 
       <Total total={exercises1 + exercises2 + exercises3} />
     </div>
