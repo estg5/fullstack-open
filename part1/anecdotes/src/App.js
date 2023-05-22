@@ -6,6 +6,8 @@ const Button = ({ text, onClickHandler = undefined }) => (
 
 const DisplayText = ({ text }) => <p>{text}</p>;
 
+const Heading = ({ heading }) => <h1>{heading}</h1>;
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -37,12 +39,28 @@ const App = () => {
     setAnecdoteVotes(newAnecdoteVotes);
   };
 
+  const getMaxVotes = () => {
+    let maxEle = anecdoteVotes[0];
+    let idx = 0;
+    for (let i = 0; i < anecdoteVotes.length; i++) {
+      if (maxEle < anecdoteVotes[i]) {
+        maxEle = anecdoteVotes[i];
+        idx = i;
+      }
+    }
+    return idx;
+  };
+
   return (
     <div>
+      <Heading heading="Anecdote of the day" />
       <DisplayText text={anecdotes[selected]} />
       <DisplayText text={`has ${anecdoteVotes[selected]} votes`} />
       <Button text="vote" onClickHandler={voteForAnecdoteOnClick} />
       <Button text="next anecdote" onClickHandler={selectAnecdoteOnClick} />
+      <Heading heading="Anecdote with most votes" />
+      <DisplayText text={anecdotes[getMaxVotes()]} />
+      <DisplayText text={`has ${anecdoteVotes[getMaxVotes()]} votes`} />
     </div>
   );
 };
