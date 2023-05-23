@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
+import personsService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,9 +12,9 @@ const App = () => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((resp) => {
-      setPersons(resp.data);
-      setFilteredPersons(resp.data);
+    personsService.getAll().then((resp) => {
+      setPersons(resp);
+      setFilteredPersons(resp);
     });
   }, []);
 
@@ -53,16 +53,17 @@ const App = () => {
       }
     }
 
-    const newPersons = persons.concat({
+    const personToSave = {
       name: newName,
       number: newPhone,
-      id: persons.length + 1,
+    };
+    personsService.savePerson(personToSave).then((resp) => {
+      const newPersons = persons.concat(resp);
+      setPersons(newPersons);
+      setFilteredPersons(newPersons);
+      setNewName("");
+      setNewPhone("");
     });
-
-    setPersons(newPersons);
-    setFilteredPersons(newPersons);
-    setNewName("");
-    setNewPhone("");
   };
 
   return (
