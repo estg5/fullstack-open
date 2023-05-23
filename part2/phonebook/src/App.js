@@ -48,7 +48,25 @@ const App = () => {
     }
     for (let i = 0; i < persons.length; i++) {
       if (persons[i].name === newName) {
-        alert(`${newName} is already added to phonebook`);
+        if (
+          window.confirm(
+            `${newName} already added to phonebook, replace the old number with a new one?`
+          )
+        ) {
+          const person = { ...persons[i], number: newPhone };
+          personsService.updatePerson(persons[i].id, person).then((resp) => {
+            const updatedPersons = persons.map((p) => {
+              if (resp.id === p.id) {
+                return { ...p, number: newPhone };
+              }
+              return p;
+            });
+            setPersons(updatedPersons);
+            setFilteredPersons(updatedPersons);
+            setNewName("");
+            setNewPhone("");
+          });
+        }
         return;
       }
     }
