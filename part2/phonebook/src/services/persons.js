@@ -9,4 +9,8 @@ function savePerson(person) {
   return axios.post(url, person).then((resp) => resp.data);
 }
 
-export default { getAll, savePerson };
+function deletePerson(id) {
+  return axios.delete(`${url}/${id}`).then((resp) => resp.data);
+}
+
+export default { getAll, savePerson, deletePerson };

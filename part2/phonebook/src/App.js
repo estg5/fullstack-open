@@ -66,6 +66,15 @@ const App = () => {
     });
   };
 
+  const deleteOnClick = (id) => {
+    if (window.confirm("wanna delete this sucker? ")) {
+      personsService.deletePerson(id).then((resp) => {
+        const newPersons = persons.filter((p) => p.id != id);
+        setPersons(newPersons);
+        setFilteredPersons(newPersons);
+      });
+    }
+  };
   return (
     <div>
       <h2>Phonebook</h2>
@@ -80,7 +89,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} deleteOnClick={deleteOnClick} />
     </div>
   );
 };
