@@ -6,7 +6,7 @@ export default function Course({ course }) {
   return (
     <div>
       <Header name={course.name} />
-      <Content course={course.parts} />
+      <Content parts={course.parts} />
     </div>
   );
 }
