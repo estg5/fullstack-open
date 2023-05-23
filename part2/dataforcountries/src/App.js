@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import countriesService from "./services/countries";
+import weatherService from "./services/weather";
 
 const Find = ({ value, onInputHandler }) => {
   return (
@@ -59,6 +60,25 @@ const DisplayCountries = ({ data }) => {
 };
 
 const DisplayCountryDetails = ({ country }) => {
+  const iconUrl = "https://openweathermap.org/img/wn/";
+
+  const [weather, setWeather] = useState({
+    temp: "",
+    img: "",
+    wind: "",
+  });
+
+  useEffect(() => {
+    weatherService.getCapitalWeather(country.capital).then((w) => {
+      const weatherToBe = {
+        temp: w.main.temp,
+        img: `${iconUrl}/${w.weather[0].icon}@2x.png`,
+        wind: w.wind.speed,
+      };
+
+      setWeather(weatherToBe);
+    });
+  }, []);
   const languages = [];
   for (const [key, value] of Object.entries(country.languages)) {
     languages.push(value);
@@ -77,6 +97,12 @@ const DisplayCountryDetails = ({ country }) => {
         ))}
       </ul>
       <img src={country.flags.png}></img>
+      <div>
+        <h2>Weather in {country.capital[0]}</h2>
+        <p>tepreature {weather.temp} &deg;C</p>
+        <img src={weather.img}></img>
+        <p>wind {weather.wind}</p>
+      </div>
     </div>
   );
 };
