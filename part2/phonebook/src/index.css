@@ -1,0 +1,19 @@
+h1 {
+  color: green;
+}
+
+.error {
+  font-size: 3rem;
+  background-color: gray;
+  color: red;
+  border: 3px solid red;
+  margin-bottom: 12px;
+}
+
+.success {
+  font-size: 3rem;
+  background-color: gray;
+  color: green;
+  border: 3px solid green;
+  margin-bottom: 12px;
+}
