@@ -11,6 +11,17 @@ const Find = ({ value, onInputHandler }) => {
 };
 
 const DisplayCountries = ({ data }) => {
+  const [showInfo, setShowInfo] = useState(new Map());
+  useEffect(() => {
+    const newMap = new Map();
+
+    for (let i = 0; i < data.length; i++) {
+      newMap.set(data[i].name.common, false);
+    }
+
+    setShowInfo(newMap);
+  }, []);
+
   if (data.length > 10) {
     return <div>too many matches, specify filter</div>;
   }
@@ -19,11 +30,30 @@ const DisplayCountries = ({ data }) => {
     return <DisplayCountryDetails country={data[0]} />;
   }
 
+  const displayInfoOnClick = (name) => {
+    const updatedMap = new Map(showInfo);
+    updatedMap.set(name, !updatedMap.get(name));
+
+    setShowInfo(updatedMap);
+  };
+
   return (
     <div>
-      {data.map((c) => (
-        <p key={c.area}>{c.name.common}</p>
-      ))}
+      {data.map((c) => {
+        return (
+          <>
+            <p key={c.area}>
+              {c.name.common}{" "}
+              <button onClick={() => displayInfoOnClick(c.name.common)}>
+                show
+              </button>
+            </p>
+            {showInfo.get(c.name.common) ? (
+              <DisplayCountryDetails country={c} />
+            ) : null}
+          </>
+        );
+      })}
     </div>
   );
 };
