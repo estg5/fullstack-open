@@ -1,6 +1,7 @@
-import express from "express";
+import express, { json } from "express";
 
 const app = express();
+app.use(json());
 
 let db = [
   {
@@ -24,6 +25,11 @@ let db = [
     number: "39-23-6423122",
   },
 ];
+
+const generateId = () => {
+  const maxId = Math.max(...db.map((p) => p.id));
+  return maxId + 1;
+};
 
 app.get("/info", (req, res) => {
   const html = `<p>Phonebook has info for ${db.length} people</p>
@@ -50,6 +56,28 @@ app.delete("/api/persons/:id", (req, res) => {
   db = db.filter((p) => p.id !== id);
 
   res.status(204).end();
+});
+
+app.post("/api/persons", (req, res) => {
+  const data = req.body;
+
+  if (!(data.name && data.number)) {
+    return res.status(400).json({ error: "name and number are required" });
+  }
+
+  const exists = db.find((p) => p.name === data.name);
+  if (exists) {
+    return res.status(400).json({ error: "name must be unique" });
+  }
+
+  const person = {
+    id: generateId(),
+    name: data.name,
+    number: data.number,
+  };
+
+  db = db.concat(person);
+  res.status(200).json(person);
 });
 
 const PORT = 3002;
