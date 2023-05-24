@@ -1,7 +1,31 @@
 import express, { json } from "express";
+import morgan from "morgan";
 
 const app = express();
+
+morgan.token("data", (req) => {
+  return JSON.stringify(req.body);
+});
+
 app.use(json());
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms :data",
+    {
+      skip: function (req, res) {
+        return req.method != "POST";
+      },
+    }
+  )
+);
+
+app.use(
+  morgan("tiny", {
+    skip: function (req, res) {
+      return req.method == "POST";
+    },
+  })
+);
 
 let db = [
   {
