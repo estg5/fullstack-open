@@ -25,13 +25,24 @@ const db = [
   },
 ];
 
-app.get("/api/persons", (req, res) => res.json(db));
-
 app.get("/info", (req, res) => {
   const html = `<p>Phonebook has info for ${db.length} people</p>
     <p>${new Date()}</p>
     `;
   res.send(html);
+});
+
+app.get("/api/persons", (req, res) => res.json(db));
+
+app.get("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const person = db.find((p) => p.id === id);
+
+  if (!person) {
+    res.status(404).end();
+  }
+
+  res.json(person);
 });
 
 const PORT = 3002;
