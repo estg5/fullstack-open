@@ -1,6 +1,7 @@
 import express from "express";
 
 const app = express();
+
 const db = [
   {
     id: 1,
@@ -23,7 +24,15 @@ const db = [
     number: "39-23-6423122",
   },
 ];
+
 app.get("/api/persons", (req, res) => res.json(db));
+
+app.get("/info", (req, res) => {
+  const html = `<p>Phonebook has info for ${db.length} people</p>
+    <p>${new Date()}</p>
+    `;
+  res.send(html);
+});
 
 const PORT = 3002;
 app.listen(PORT);
