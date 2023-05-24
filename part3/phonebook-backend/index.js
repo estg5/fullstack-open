@@ -2,7 +2,7 @@ import express from "express";
 
 const app = express();
 
-const db = [
+let db = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -43,6 +43,13 @@ app.get("/api/persons/:id", (req, res) => {
   }
 
   res.json(person);
+});
+
+app.delete("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  db = db.filter((p) => p.id !== id);
+
+  res.status(204).end();
 });
 
 const PORT = 3002;
