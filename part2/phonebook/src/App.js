@@ -79,7 +79,7 @@ const App = () => {
               setNewPhone("");
             })
             .catch(() => {
-              setMessage(`Cant update ${personToSave.name}`);
+              setMessage(`Cant update ${person.name}`);
               setNotification("error");
               setTimeout(() => {
                 setMessage("");
@@ -94,19 +94,28 @@ const App = () => {
       name: newName,
       number: newPhone,
     };
-    personsService.savePerson(personToSave).then((resp) => {
-      const newPersons = persons.concat(resp);
-      setPersons(newPersons);
-      setFilteredPersons(newPersons);
-      setNewName("");
-      setNewPhone("");
+    personsService
+      .savePerson(personToSave)
+      .then((resp) => {
+        const newPersons = persons.concat(resp);
+        setPersons(newPersons);
+        setFilteredPersons(newPersons);
+        setNewName("");
+        setNewPhone("");
 
-      setMessage(`Added ${personToSave.name}`);
-      setNotification("success");
-      setTimeout(() => {
-        setMessage("");
-      }, 5000);
-    });
+        setMessage(`Added ${personToSave.name}`);
+        setNotification("success");
+        setTimeout(() => {
+          setMessage("");
+        }, 5000);
+      })
+      .catch((err) => {
+        setMessage(`${err.response.data.error}`);
+        setNotification("error");
+        setTimeout(() => {
+          setMessage("");
+        }, 5000);
+      });
   };
 
   const deleteOnClick = (id) => {

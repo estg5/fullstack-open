@@ -13,8 +13,8 @@ function deletePerson(id) {
   return axios.delete(`${url}/${id}`).then((resp) => resp.data);
 }
 
-function updatePerson(id, persone) {
-  return axios.put(`${url}/${id}`, persone).then((resp) => resp.data);
+function updatePerson(id, person) {
+  return axios.put(`${url}/${id}`, person).then((resp) => resp.data);
 }
 
 export default { getAll, savePerson, deletePerson, updatePerson };
